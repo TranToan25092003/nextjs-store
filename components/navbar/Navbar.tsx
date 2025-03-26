@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Container from "../global/Container";
 import Logo from "./Logo";
 import NavSearch from "./NavSearch";
@@ -11,7 +11,10 @@ const Navbar = () => {
     <div className="border-b">
       <Container className="flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap py-8 gap-4">
         <Logo></Logo>
-        <NavSearch></NavSearch>
+        <Suspense>
+          <NavSearch></NavSearch>
+        </Suspense>
+
         <div className="flex gap-4 items-center">
           <CartButton></CartButton>
           <DarkMode></DarkMode>
