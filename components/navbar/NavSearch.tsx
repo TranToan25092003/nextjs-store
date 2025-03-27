@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { useState, useEffect } from "react";
 
-const NavSearch = async () => {
+const NavSearch = () => {
   const searchParams = useSearchParams();
 
   const { replace } = useRouter();
