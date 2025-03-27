@@ -7,8 +7,14 @@ import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
 
-const SingleProductPage = async ({ params }: { params: { id: string } }) => {
-  const product = await fetchSingleProduct(params.id);
+const SingleProductPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const listParams = await params;
+
+  const product = await fetchSingleProduct(listParams.id);
 
   if (product) {
     const { id, name, image, company, description, price } = product;
@@ -35,10 +41,10 @@ const SingleProductPage = async ({ params }: { params: { id: string } }) => {
             <div className="flex gap-x-8 items-center ">
               <h1 className="capitalize text-3xl font-bold">{name}</h1>
               <FavoriteToggleButton
-                productId={params.id}
+                productId={listParams.id}
               ></FavoriteToggleButton>
             </div>
-            <ProductRating productId={params.id}></ProductRating>
+            <ProductRating productId={listParams.id}></ProductRating>
             <h4 className="text-xl mt-2">{company}</h4>
             <p className="mt-3 text-md bg-muted inline-block p-2 rounded">
               {dollarAmount}
