@@ -6,6 +6,9 @@ import { formatCurrency } from "@/utils/format";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
+import ShareButton from "@/components/single-product/ShareButton";
+import SubmitReview from "@/components/reviews/SubmitReview";
+import ProductReviews from "@/components/reviews/ProductReviews";
 
 const SingleProductPage = async ({
   params,
@@ -40,11 +43,13 @@ const SingleProductPage = async ({
           <div>
             <div className="flex gap-x-8 items-center ">
               <h1 className="capitalize text-3xl font-bold">{name}</h1>
-              <FavoriteToggleButton
-                productId={listParams.id}
-              ></FavoriteToggleButton>
+              <div className="flex gap-x-2 items-center">
+                <FavoriteToggleButton productId={id}></FavoriteToggleButton>
+
+                <ShareButton productId={id} name={name}></ShareButton>
+              </div>
             </div>
-            <ProductRating productId={listParams.id}></ProductRating>
+            <ProductRating productId={id}></ProductRating>
             <h4 className="text-xl mt-2">{company}</h4>
             <p className="mt-3 text-md bg-muted inline-block p-2 rounded">
               {dollarAmount}
@@ -55,6 +60,10 @@ const SingleProductPage = async ({
             <AddToCart productId={id}></AddToCart>
           </div>
         </div>
+
+        {/* review */}
+        <ProductReviews productId={id}></ProductReviews>
+        <SubmitReview productId={id}></SubmitReview>
       </section>
     );
   }
