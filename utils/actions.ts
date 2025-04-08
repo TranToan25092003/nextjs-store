@@ -252,7 +252,126 @@ export const updateImageProductAction = async (
   prevState: any,
   formData: FormData
 ) => {
+  await getAdminUser();
+
+  const image = formData.get("image") as File;
+
+  const productId = formData.get("id") as string;
+
+  const oldImage = formData.get("url") as string;
+
+  try {
+    const validateFile = validateWithZodSchema(imageSchema, {
+      image: image,
+    });
+
+    const fullPath = await uploadImage(validateFile.image);
+
+    await deleteImage(oldImage);
+
+    await db.product.update({
+      where: {
+        id: productId,
+      },
+      data: {
+        image: fullPath,
+      },
+    });
+
+    revalidatePath(`/admin/products/${productId}/edit`);
+
+    return {
+      message: "Update successfully",
+    };
+  } catch (error) {
+    return renderError(error);
+  }
+
   return {
-    message: "Product image update successfully",
+    message: "",
   };
+};
+
+/**
+ * ====================================
+ * toggle favorite
+ * ====================================
+ */
+export const toggleFavoriteAction = async (prevState: {
+  productId: string;
+  favoriteId: string | null;
+  pathName: string;
+}) => {
+  const user = await getAuthUser();
+
+  const { productId, favoriteId, pathName } = prevState;
+
+  try {
+    if (favoriteId) {
+      await db.favorite.delete({
+        where: {
+          id: favoriteId,
+        },
+      });
+    } else {
+      await db.favorite.create({
+        data: {
+          productId: productId,
+          clerkId: user.id,
+        },
+      });
+    }
+
+    revalidatePath(pathName);
+
+    return {
+      message: favoriteId ? "removed from faves" : "added to faves",
+    };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+/**
+ * ====================================
+ * fetch favorite id
+ * ====================================
+ */
+export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
+  const user = await getAuthUser();
+
+  const favorite = await db.favorite.findFirst({
+    where: {
+      productId: productId,
+      clerkId: user.id,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  console.log(favorite);
+
+  return favorite?.id || null;
+};
+
+/**
+ * ====================================
+ * fetch user favorite
+ * ====================================
+ */
+
+export const fetchUserFavorites = async () => {
+  const user = await getAuthUser();
+
+  const favorites = await db.favorite.findMany({
+    where: {
+      clerkId: user.id,
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  return favorites;
 };

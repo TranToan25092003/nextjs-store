@@ -19,7 +19,15 @@ const FormContainer = ({
 
   useEffect(() => {
     if (state.message) {
-      toast(state.message);
+      toast(state.message, {
+        position: "top-right",
+        action: {
+          label: "x",
+          onClick: () => {
+            toast.dismiss();
+          },
+        },
+      });
     }
   }, [state]);
 

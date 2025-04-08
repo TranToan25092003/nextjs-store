@@ -70,3 +70,39 @@ export const IconButton = ({ actionType }: { actionType: action }) => {
     </Button>
   );
 };
+
+export const CardSingInButton = () => {
+  return (
+    <SignInButton mode="modal">
+      <Button
+        type="button"
+        size={"icon"}
+        variant={"outline"}
+        className="p-2 cursor-pointer"
+      >
+        <FaRegHeart></FaRegHeart>
+      </Button>
+    </SignInButton>
+  );
+};
+
+export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      size={"icon"}
+      variant={"outline"}
+      className="p-2 cursor-pointer"
+    >
+      {pending ? (
+        <ReloadIcon className="h-4 w-4 animate-spin"></ReloadIcon>
+      ) : isFavorite ? (
+        <FaHeart></FaHeart>
+      ) : (
+        <FaRegHeart></FaRegHeart>
+      )}
+    </Button>
+  );
+};

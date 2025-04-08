@@ -1,10 +1,15 @@
-import { fetchAdminProductDetails, updateProductAction } from "@/utils/actions";
+import {
+  fetchAdminProductDetails,
+  updateImageProductAction,
+  updateProductAction,
+} from "@/utils/actions";
 import FormContainer from "@/components/form/FormContainer";
 import FormInput from "@/components/form/FormInput";
 import PriceInput from "@/components/form/PriceInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import CheckboxInput from "@/components/form/CheckboxInput";
 import SubmitButton from "@/components/form/Button";
+import ImageInputContainer from "@/components/form/ImageInputContainer";
 
 const EditProductPage = async ({
   params,
@@ -17,7 +22,7 @@ const EditProductPage = async ({
 
   const product = await fetchAdminProductDetails(id);
 
-  const { name, company, description, featured, price } = product;
+  const { name, company, description, featured, price, image } = product;
 
   return (
     <section>
@@ -27,6 +32,16 @@ const EditProductPage = async ({
 
       <div className="border rounded p-8">
         {/* image container */}
+        <ImageInputContainer
+          action={updateImageProductAction}
+          name={name}
+          image={image}
+          text="update image"
+        >
+          <input type="hidden" name="id" value={id} />
+          <input type="hidden" name="url" value={image}></input>
+        </ImageInputContainer>
+
         <FormContainer action={updateProductAction}>
           <div className="grid gap-4 md:grid-cols-2 my-4">
             <input type="hidden" name="id" value={id} />

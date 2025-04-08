@@ -7,6 +7,11 @@ export const supabase = createClient(
   process.env.SUPABASE_KEY as string
 );
 
+/**
+ * ====================================
+ * upload image to supabase
+ * ====================================
+ */
 export const uploadImage = async (image: File) => {
   const timestamp = Date.now();
 
@@ -21,6 +26,11 @@ export const uploadImage = async (image: File) => {
   return supabase.storage.from(bucket).getPublicUrl(newName).data.publicUrl;
 };
 
+/**
+ * ====================================
+ * delete image on supabase
+ * ====================================
+ */
 export const deleteImage = async (url: string) => {
   const imageName = url.split("/").pop();
 
