@@ -10,6 +10,8 @@ export default clerkMiddleware(async (auth, req) => {
   const isAdminUser = userId === (process.env.ADMIN_USER_ID as string);
 
   if (isAdminRoute(req) && !isAdminUser) {
+    // Notify("Forbidden resource!");
+    // console.log("run heree");
     return NextResponse.redirect(new URL("/", req.url));
   }
 

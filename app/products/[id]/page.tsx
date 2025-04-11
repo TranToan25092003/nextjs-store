@@ -1,6 +1,6 @@
 import React from "react";
 import BreadCrumbs from "@/components/single-product/BreadCrumbs";
-import { fetchSingleProduct } from "@/utils/actions";
+import { fetchSingleProduct, findExistReviews } from "@/utils/actions";
 import Image from "next/image";
 import { formatCurrency } from "@/utils/format";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
@@ -9,6 +9,7 @@ import ProductRating from "@/components/single-product/ProductRating";
 import ShareButton from "@/components/single-product/ShareButton";
 import SubmitReview from "@/components/reviews/SubmitReview";
 import ProductReviews from "@/components/reviews/ProductReviews";
+import { auth } from "@clerk/nextjs/server";
 
 const SingleProductPage = async ({
   params,
@@ -23,6 +24,10 @@ const SingleProductPage = async ({
     const { id, name, image, company, description, price } = product;
 
     const dollarAmount = formatCurrency(price);
+
+    const { userId } = await auth();
+
+    const reviewDoesNotExist = userId && !(await findExistReviews(userId, id));
 
     return (
       <section>
@@ -63,7 +68,7 @@ const SingleProductPage = async ({
 
         {/* review */}
         <ProductReviews productId={id}></ProductReviews>
-        <SubmitReview productId={id}></SubmitReview>
+        {reviewDoesNotExist && <SubmitReview productId={id}></SubmitReview>}
       </section>
     );
   }
