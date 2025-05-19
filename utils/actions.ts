@@ -733,7 +733,7 @@ export const removeCartItemAction = async (
 
     await updateCart(cart);
 
-    revalidatePath("/cart");
+    revalidatePath("/");
 
     return { message: "Item removed from cart" };
   } catch (error) {
@@ -768,7 +768,7 @@ export const updateCartItemAction = async ({
 
     await updateCart(cart);
 
-    revalidatePath("/cart");
+    revalidatePath("/");
 
     return {
       message: "cart updated",
