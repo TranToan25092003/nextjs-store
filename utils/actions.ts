@@ -705,8 +705,6 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
     return renderError(error);
   }
 
-  revalidatePath("/cart");
-
   return {
     message: "Add to cart success",
   };
