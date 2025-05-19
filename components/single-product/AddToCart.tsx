@@ -5,9 +5,7 @@ import { Mode } from "./SelectProductAmount";
 import FormContainer from "../form/FormContainer";
 import { addToCartAction } from "@/utils/actions";
 import { useAuth } from "@clerk/nextjs";
-import { Button } from "../ui/button";
 import SubmitButton, { ProductSignInButton } from "../form/Button";
-import { Select } from "@radix-ui/react-select";
 
 const AddToCart = ({ productId }: { productId: string }) => {
   const [amount, setAmount] = useState(1);
