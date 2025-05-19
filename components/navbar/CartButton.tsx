@@ -5,7 +5,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { fetchCartItems } from "@/utils/actions";
 
 const CartButton = async () => {
-  let numItemsInCart = 0;
+  // let numItemsInCart = 0;
   // try {
   //   numItemsInCart = await fetchCartItems();
   // } catch (error) {
